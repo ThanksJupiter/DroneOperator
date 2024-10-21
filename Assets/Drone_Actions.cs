@@ -29,17 +29,26 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Look"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""0bcce0a5-8b01-419c-a62f-41ed2857cb35"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""7ab31295-df7a-46d7-a0b7-5e5d62d82ca3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""5036e64a-fafa-4e0b-aa9a-2d0ec9230ae0"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -50,7 +59,7 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e698765b-05f1-4047-8fa0-9351013ad971"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -59,13 +68,68 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""4881ba12-5ff1-4bf2-bcbc-6676b4f2bc4c"",
-                    ""path"": """",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""413a7193-6204-4420-a8b4-4e40a620a251"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""78de71c3-7596-457b-8ed1-bbc3076c79e2"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""baba0bee-e957-4cbe-b58a-b2543bb37d20"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""81c1ff31-ae3d-46cf-951a-00bd537d26a6"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""34a8d90c-e66e-47fb-ab5c-566c1aef1653"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e25160e5-d5ad-4e0c-aa14-05f615b37f60"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -78,6 +142,7 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
         m_Control = asset.FindActionMap("Control", throwIfNotFound: true);
         m_Control_Look = m_Control.FindAction("Look", throwIfNotFound: true);
         m_Control_Move = m_Control.FindAction("Move", throwIfNotFound: true);
+        m_Control_Shoot = m_Control.FindAction("Shoot", throwIfNotFound: true);
     }
 
     ~@Drone_Actions()
@@ -146,12 +211,14 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
     private List<IControlActions> m_ControlActionsCallbackInterfaces = new List<IControlActions>();
     private readonly InputAction m_Control_Look;
     private readonly InputAction m_Control_Move;
+    private readonly InputAction m_Control_Shoot;
     public struct ControlActions
     {
         private @Drone_Actions m_Wrapper;
         public ControlActions(@Drone_Actions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_Control_Look;
         public InputAction @Move => m_Wrapper.m_Control_Move;
+        public InputAction @Shoot => m_Wrapper.m_Control_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Control; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -167,6 +234,9 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
         private void UnregisterCallbacks(IControlActions instance)
@@ -177,6 +247,9 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
         public void RemoveCallbacks(IControlActions instance)
@@ -198,5 +271,6 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
     {
         void OnLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

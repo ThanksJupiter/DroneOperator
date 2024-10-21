@@ -9,7 +9,7 @@ namespace Drone
     {
         [Get] public KinematicCharacterMotor motor;
         [Get] public DroneInput input;
-        public Transform cameraTransform;
+        public DroneCamera camera;
     }
 
     public class DroneMachine : StateMachine<DroneContext>, ICharacterController
