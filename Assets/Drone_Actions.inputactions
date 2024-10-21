@@ -1,0 +1,54 @@
+{
+    "name": "Drone_Actions",
+    "maps": [
+        {
+            "name": "Control",
+            "id": "572c4bf2-5de0-4ed2-8eac-5aa7a1bd2a70",
+            "actions": [
+                {
+                    "name": "Look",
+                    "type": "Button",
+                    "id": "0bcce0a5-8b01-419c-a62f-41ed2857cb35",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "7ab31295-df7a-46d7-a0b7-5e5d62d82ca3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e698765b-05f1-4047-8fa0-9351013ad971",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4881ba12-5ff1-4bf2-bcbc-6676b4f2bc4c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
