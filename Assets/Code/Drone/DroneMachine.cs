@@ -9,7 +9,11 @@ namespace Drone
     {
         [Get] public KinematicCharacterMotor motor;
         [Get] public DroneInput input;
+        [Get] public DroneMovement movement;
         public DroneCamera camera;
+
+        public float cameraHeightOffset = .5f;
+        public Quaternion cameraRotation = Quaternion.identity;
     }
 
     public class DroneMachine : StateMachine<DroneContext>, ICharacterController
@@ -17,14 +21,24 @@ namespace Drone
         private void Start()
         {
             context.motor.CharacterController = this;
+            context.camera.SetFollowTransform(transform);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             ActivateState<DefaultDroneState>();
         }
 
+        private void SetInput()
+        {
+
+        }
+
         protected override void LateUpdate()
         {
-            
+            float dt = Time.deltaTime;
+
+            Vector3 lookInputVector = new Vector3(context.input.look.x, context.input.look.y);
+            context.camera.UpdateWithInput(dt, 0f, lookInputVector);
+            //context.camera.UpdatePositionAndRotation(transform.position + Vector3.down * context.cameraHeightOffset, context.cameraRotation, Time.deltaTime);
         }
 
         public void AfterCharacterUpdate(float deltaTime)
