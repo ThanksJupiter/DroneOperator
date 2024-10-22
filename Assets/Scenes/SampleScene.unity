@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Moonlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -880,6 +880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveInputVector: {x: 0, y: 0, z: 0}
+  lookInputVector: {x: 0, y: 0, z: 0}
+  rotationSharpness: 10
 --- !u!1001 &1359803586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1503,7 +1505,7 @@ GameObject:
   - component: {fileID: 2050537188}
   - component: {fileID: 2050537187}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Belowlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
