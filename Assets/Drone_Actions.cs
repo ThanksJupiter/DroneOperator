@@ -40,7 +40,7 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""7ab31295-df7a-46d7-a0b7-5e5d62d82ca3"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -68,9 +68,20 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""413a7193-6204-4420-a8b4-4e40a620a251"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""name"": """",
+                    ""id"": ""e25160e5-d5ad-4e0c-aa14-05f615b37f60"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""3D Vector"",
+                    ""id"": ""8a613845-5c9a-4af5-b612-9e4b69476da8"",
+                    ""path"": ""3DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -80,8 +91,19 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""78de71c3-7596-457b-8ed1-bbc3076c79e2"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""190acfc3-4388-4dda-b81e-e50fccc19415"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d1e71bde-7c43-4b63-b417-036dc4a229b1"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -91,8 +113,19 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""baba0bee-e957-4cbe-b58a-b2543bb37d20"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""id"": ""71abcdf1-d427-4ba7-865a-e038cdefaaed"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""0d288d1f-7623-40ad-99ff-4883a1269c65"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -102,7 +135,7 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""81c1ff31-ae3d-46cf-951a-00bd537d26a6"",
+                    ""id"": ""bf96e057-cf38-4f00-81b0-e6769fe095b6"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -113,7 +146,7 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""34a8d90c-e66e-47fb-ab5c-566c1aef1653"",
+                    ""id"": ""424cb0ee-a97c-44d3-9266-4e0794df5b16"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -123,15 +156,26 @@ public partial class @Drone_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""e25160e5-d5ad-4e0c-aa14-05f615b37f60"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""name"": ""forward"",
+                    ""id"": ""c9a2af20-1f62-4553-a87f-105d77eaf324"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoot"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""a1e2bc7c-4983-4c09-8dbf-fc49f754be6b"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }

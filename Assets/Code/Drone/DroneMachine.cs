@@ -27,9 +27,20 @@ namespace Drone
             ActivateState<DefaultDroneState>();
         }
 
+        protected override void PreUpdate()
+        {
+            SetInput();
+        }
+
         private void SetInput()
         {
-
+            Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(context.camera.transform.rotation * Vector3.forward, Vector3.up).normalized;
+            if (cameraPlanarDirection.sqrMagnitude == 0f)
+            {
+                cameraPlanarDirection = Vector3.ProjectOnPlane(context.camera.transform.rotation * Vector3.up, Vector3.up).normalized;
+            }
+            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, Vector3.up);
+            context.movement.moveInputVector = cameraPlanarRotation * context.input.move;
         }
 
         protected override void LateUpdate()
@@ -38,7 +49,7 @@ namespace Drone
 
             Vector3 lookInputVector = new Vector3(context.input.look.x, context.input.look.y);
             context.camera.UpdateWithInput(dt, 0f, lookInputVector);
-            //context.camera.UpdatePositionAndRotation(transform.position + Vector3.down * context.cameraHeightOffset, context.cameraRotation, Time.deltaTime);
+            context.camera.UpdatePositionAndRotation(transform.position + Vector3.down * context.cameraHeightOffset, context.cameraRotation, Time.deltaTime);
         }
 
         public void AfterCharacterUpdate(float deltaTime)
@@ -88,7 +99,8 @@ namespace Drone
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            
+            Vector3 targetVelocity = context.movement.moveInputVector * context.movement.moveSpeed;
+            currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, 1f - Mathf.Exp(-context.movement.moveSharpness * deltaTime));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Drone
         public Vector3 PlanarDirection { get; set; }
         public Transform FollowTransform { get; private set; }
 
-        private float targetVerticalAngle;
+        private float targetVerticalAngle = 65f;
 
         private void Awake()
         {
@@ -47,7 +47,7 @@ namespace Drone
         public void UpdatePositionAndRotation(Vector3 position, Quaternion rotation, float dt)
         {
             transform.position = Vector3.Lerp(transform.position, position, 1f - Mathf.Exp(-updatePositionAndRotationSharpness * dt));
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1f - Mathf.Exp(-updatePositionAndRotationSharpness * dt));
+            //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1f - Mathf.Exp(-updatePositionAndRotationSharpness * dt));
         }
     }
 }

@@ -3,18 +3,18 @@ using UnityEngine.InputSystem;
 
 public class DroneInput : MonoBehaviour, Drone_Actions.IControlActions
 {
-    public Drone_Actions droneActions;
+    public Drone_Actions inputActions;
 
     public Vector2 look { get; private set; }
-    public Vector2 move { get; private set; }
+    public Vector3 move { get; private set; }
 
     public bool shoot { get; set; }
 
     void Start()
     {
-        droneActions = new Drone_Actions();
-        droneActions.Control.SetCallbacks(this);
-        droneActions.Control.Enable();
+        inputActions = new Drone_Actions();
+        inputActions.Control.SetCallbacks(this);
+        inputActions.Control.Enable();
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -24,7 +24,7 @@ public class DroneInput : MonoBehaviour, Drone_Actions.IControlActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        move = context.ReadValue<Vector2>();
+        move = context.ReadValue<Vector3>();
     }
 
     public void OnShoot(InputAction.CallbackContext context)
