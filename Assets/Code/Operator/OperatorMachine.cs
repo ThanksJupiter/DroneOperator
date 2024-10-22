@@ -19,6 +19,7 @@ namespace Operator
         public DroneMachine drone;
         public ParticleSystem shootParticleSystem;
         public Transform firePoint;
+        public GameObject hitEffectPrefab;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController

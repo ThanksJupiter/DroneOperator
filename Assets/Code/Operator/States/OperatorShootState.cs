@@ -41,6 +41,7 @@ namespace Operator
                     if (hit.transform.TryGetComponent(out ITarget target))
                     {
                         target.Hit();
+                        GameObject.Instantiate(context.hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
                     }
                 }
             }
