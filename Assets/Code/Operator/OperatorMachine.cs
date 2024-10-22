@@ -12,10 +12,13 @@ namespace Operator
         [Get] public OperatorMovement movement;
         [Get] public OperatorAnimatorBridge animator;
         [Get] public OperatorInput input;
+        [Get] public AimLaser laser;
         public OperatorSettings settings;
         public DroneCamera camera;
         [Get] public Transform transform;
         public DroneMachine drone;
+        public ParticleSystem shootParticleSystem;
+        public Transform firePoint;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController
@@ -23,12 +26,14 @@ namespace Operator
         private void Start()
         {
             context.motor.CharacterController = this;
-            ActivateState<DefaultOperatorState>();
+            context.movement.activeMoveSpeed = context.settings.moveSpeed;
+            ActivateState<OperatorDefaultState>();
         }
 
         protected override void PreUpdate()
         {
             SetInput();
+            context.laser.UpdatePosition();
         }
 
         private void SetInput()
@@ -120,7 +125,7 @@ namespace Operator
             Vector3 effectiveGroundNormal = context.motor.GroundingStatus.GroundNormal;
             Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * context.movement.moveInputVector.magnitude;
 
-            float stableMoveSpeed = context.settings.moveSpeed;
+            float stableMoveSpeed = context.movement.activeMoveSpeed;
 
             Vector3 targetMovementVelocity = reorientedInput * stableMoveSpeed;
             currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-context.settings.movementSharpness * deltaTime));
