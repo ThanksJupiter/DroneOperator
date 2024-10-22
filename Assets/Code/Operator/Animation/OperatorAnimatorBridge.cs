@@ -1,4 +1,3 @@
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 using Utils;
 
@@ -7,6 +6,11 @@ namespace Operator
     public class OperatorAnimatorBridge : MonoBehaviour
     {
         [Get] private Animator animator;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
 
         public void UpdateInputMove(Vector2 inputMove, float dampTime = -1.0f)
         {

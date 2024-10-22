@@ -14,6 +14,8 @@ namespace Operator
         [Get] public OperatorInput input;
         public OperatorSettings settings;
         public DroneCamera camera;
+        [Get] public Transform transform;
+        public DroneMachine drone;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController
@@ -43,7 +45,7 @@ namespace Operator
 
             Vector3 aimInputVector = new Vector3(context.input.aim.x, 0f, context.input.aim.y);
 
-            context.movement.lookInputVector = context.input.aim.sqrMagnitude > 0f ? cameraPlanarRotation * aimInputVector : moveInputVector;
+            context.movement.lookInputVector = context.input.aim.sqrMagnitude > 0f ? cameraPlanarRotation * aimInputVector : context.movement.moveInputVector;
         }
 
         public void AfterCharacterUpdate(float deltaTime)
