@@ -12,7 +12,6 @@ namespace Zombie
             context.moveInputVector = Vector3.zero;
 
             lilTimer = 0f;
-            
         }
 
         public override void OnUpdate(float deltaTime)
