@@ -43,6 +43,10 @@ namespace Operator
                         target.Hit();
                         GameObject.Instantiate(context.hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
                     }
+                    else
+                    {
+                        GameObject.Instantiate(context.hitWallEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
+                    }
                 }
             }
 

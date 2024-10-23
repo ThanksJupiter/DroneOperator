@@ -8976,6 +8976,7 @@ MonoBehaviour:
     shootParticleSystem: {fileID: 791121003}
     firePoint: {fileID: 651848728}
     hitEffectPrefab: {fileID: 1649779078303077741, guid: 8290ab2c0d9560e42be4cb790fc52f34, type: 3}
+    hitWallEffectPrefab: {fileID: 1649779078303077741, guid: a98f1f685f2b3bc45a8f6b8f846313b1, type: 3}
     lockOn: {fileID: 962789302}
   debugSettings:
     debug: 0

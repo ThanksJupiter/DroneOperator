@@ -22,6 +22,7 @@ namespace Operator
         public ParticleSystem shootParticleSystem;
         public Transform firePoint;
         public GameObject hitEffectPrefab;
+        public GameObject hitWallEffectPrefab;
         public RectTransform lockOn;
     }
 
