@@ -11,4 +11,5 @@ public class OperatorSettings : ScriptableObject
     [Header("Shooting")]
     public float fireRate = .1f;
     public float fireCastRadius = .1f;
+    public float lockOnRadius = 10f;
 }

@@ -9,6 +9,8 @@ public class TargetDummy : MonoBehaviour, ITarget
 
     private float health = 50f;
 
+    public Vector3 WorldPosition => transform.position;
+
     private void Start()
     {
         originPosition = transform.position;

@@ -1,7 +1,9 @@
-using UnityEngine;
-using KinematicCharacterController;
-using Utils;
 using Drone;
+using KinematicCharacterController;
+using System.Collections.Generic;
+using UnityEngine;
+using Utils;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Operator
 {
@@ -20,6 +22,7 @@ namespace Operator
         public ParticleSystem shootParticleSystem;
         public Transform firePoint;
         public GameObject hitEffectPrefab;
+        public RectTransform lockOn;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController
@@ -107,6 +110,60 @@ namespace Operator
 
                 // Set the current rotation (which will be used by the KinematicCharacterMotor)
                 currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, context.motor.CharacterUp);
+            }
+
+            if (context.input.targetLock)
+            {
+                // TODO make sophisticated lock-on system
+                float closestTargetDistance = float.MaxValue;
+                ITarget closestTarget = null;
+                List<ITarget> lockOnTargets = new List<ITarget>();
+                Collider[] overlappedColliders = Physics.OverlapSphere(context.transform.position, context.settings.lockOnRadius);
+                for (int i = 0; i < overlappedColliders.Length; i++)
+                {
+                    if (overlappedColliders[i].TryGetComponent(out ITarget target))
+                    {
+                        // Line of sight
+                        Vector3 directionToTarget = target.WorldPosition - context.transform.position;
+                        directionToTarget.y = 0f;
+
+                        bool lineOfSightBlocked = Physics.Raycast(transform.position + Vector3.up, directionToTarget, out RaycastHit hit);
+                        lineOfSightBlocked = lineOfSightBlocked && !hit.transform.TryGetComponent(out ITarget losCheckTarget);
+                        Debug.DrawRay(transform.position + Vector3.up, directionToTarget, lineOfSightBlocked? Color.red : Color.green);
+                        if (lineOfSightBlocked)
+                            continue;
+
+                        if (!lockOnTargets.Contains(target))
+                        {
+                            lockOnTargets.Add(target);
+                            float distance = Vector3.Distance(context.transform.position, target.WorldPosition);
+                            if (distance <= closestTargetDistance)
+                            {
+                                closestTargetDistance = distance;
+                                closestTarget = target;
+                            }
+                        }
+                    }
+                }
+
+                if (closestTarget != null)
+                {
+                    Vector3 directionToClosestTarget = closestTarget.WorldPosition - context.transform.position;
+                    directionToClosestTarget.y = 0f;
+                    Quaternion rotationToClosestTarget = Quaternion.LookRotation(directionToClosestTarget, context.motor.CharacterUp);
+                    currentRotation = rotationToClosestTarget;
+
+                    Vector3 lockOnPosition = closestTarget.WorldPosition;
+                    lockOnPosition.y = context.firePoint.transform.position.y;
+                    context.lockOn.position = context.camera.camera.WorldToScreenPoint(lockOnPosition);
+                    context.lockOn.gameObject.SetActive(true);
+                    return;
+                }
+            }
+
+            if (context.lockOn.gameObject.activeSelf)
+            {
+                context.lockOn.gameObject.SetActive(false);
             }
 
             Vector3 currentUp = (currentRotation * Vector3.up);

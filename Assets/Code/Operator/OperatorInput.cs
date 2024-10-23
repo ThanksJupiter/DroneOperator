@@ -9,6 +9,7 @@ public class OperatorInput : MonoBehaviour, Operator_Actions.IControlActions
     public Vector2 move { get; private set; }
 
     public bool shoot { get; private set; }
+    public bool targetLock { get; private set; }
 
     private void Start()
     {
@@ -36,6 +37,18 @@ public class OperatorInput : MonoBehaviour, Operator_Actions.IControlActions
         else if (context.canceled)
         {
             shoot = false;
+        }
+    }
+
+    public void OnTargetLock(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            targetLock = true;
+        }
+        else if (context.canceled)
+        {
+            targetLock = false;
         }
     }
 }

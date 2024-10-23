@@ -53,6 +53,15 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TargetLock"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee4d79ef-a4dd-45f5-a23d-c9fc31dd23e0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""932e973e-a6f8-40ee-b15c-874656b82330"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TargetLock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
         m_Control_Move = m_Control.FindAction("Move", throwIfNotFound: true);
         m_Control_Aim = m_Control.FindAction("Aim", throwIfNotFound: true);
         m_Control_Shoot = m_Control.FindAction("Shoot", throwIfNotFound: true);
+        m_Control_TargetLock = m_Control.FindAction("TargetLock", throwIfNotFound: true);
     }
 
     ~@Operator_Actions()
@@ -168,6 +189,7 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Control_Move;
     private readonly InputAction m_Control_Aim;
     private readonly InputAction m_Control_Shoot;
+    private readonly InputAction m_Control_TargetLock;
     public struct ControlActions
     {
         private @Operator_Actions m_Wrapper;
@@ -175,6 +197,7 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Control_Move;
         public InputAction @Aim => m_Wrapper.m_Control_Aim;
         public InputAction @Shoot => m_Wrapper.m_Control_Shoot;
+        public InputAction @TargetLock => m_Wrapper.m_Control_TargetLock;
         public InputActionMap Get() { return m_Wrapper.m_Control; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -193,6 +216,9 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @TargetLock.started += instance.OnTargetLock;
+            @TargetLock.performed += instance.OnTargetLock;
+            @TargetLock.canceled += instance.OnTargetLock;
         }
 
         private void UnregisterCallbacks(IControlActions instance)
@@ -206,6 +232,9 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @TargetLock.started -= instance.OnTargetLock;
+            @TargetLock.performed -= instance.OnTargetLock;
+            @TargetLock.canceled -= instance.OnTargetLock;
         }
 
         public void RemoveCallbacks(IControlActions instance)
@@ -228,5 +257,6 @@ public partial class @Operator_Actions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnTargetLock(InputAction.CallbackContext context);
     }
 }

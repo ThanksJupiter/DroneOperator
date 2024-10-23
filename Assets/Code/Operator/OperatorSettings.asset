@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: OperatorSettings
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  shootingMoveSpeed: 0.1
   movementSharpness: 10
   gravity: 20
+  fireRate: 0.1
+  fireCastRadius: 0.1
+  lockOnRadius: 20

@@ -4,6 +4,7 @@ namespace Drone
 {
     public class DroneCamera : MonoBehaviour
     {
+        public Camera camera;
         public float updatePositionAndRotationSharpness = 10f;
         public float rotationSpeed = 10f;
         public float rotationSharpness = 10f;
@@ -17,6 +18,7 @@ namespace Drone
         private void Awake()
         {
             PlanarDirection = transform.forward;
+            camera = GetComponent<Camera>();
 
             targetVerticalAngle = 0f;
         }
