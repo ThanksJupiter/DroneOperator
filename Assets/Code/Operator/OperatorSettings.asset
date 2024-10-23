@@ -18,4 +18,4 @@ MonoBehaviour:
   gravity: 20
   fireRate: 0.1
   fireCastRadius: 0.1
-  lockOnRadius: 20
+  lockOnRadius: 6
