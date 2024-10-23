@@ -11,6 +11,8 @@ public class TargetDummy : MonoBehaviour, ITarget
 
     public Vector3 WorldPosition => transform.position;
 
+    public bool IsDead => health <= 0f;
+
     private void Start()
     {
         originPosition = transform.position;
@@ -26,7 +28,7 @@ public class TargetDummy : MonoBehaviour, ITarget
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
             deathEffect.Play();
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, 5f);
         }
     }
 

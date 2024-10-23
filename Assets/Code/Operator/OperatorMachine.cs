@@ -24,6 +24,7 @@ namespace Operator
         public GameObject hitEffectPrefab;
         public GameObject hitWallEffectPrefab;
         public RectTransform lockOn;
+        public ITarget lockOnTarget = null;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController
@@ -117,7 +118,6 @@ namespace Operator
             {
                 // TODO make sophisticated lock-on system
                 float closestTargetDistance = float.MaxValue;
-                ITarget closestTarget = null;
                 List<ITarget> lockOnTargets = new List<ITarget>();
                 Collider[] overlappedColliders = Physics.OverlapSphere(context.transform.position, context.settings.lockOnRadius);
                 for (int i = 0; i < overlappedColliders.Length; i++)
@@ -129,6 +129,7 @@ namespace Operator
                         directionToTarget.y = 0f;
 
                         bool lineOfSightBlocked = Physics.Raycast(transform.position + Vector3.up, directionToTarget, out RaycastHit hit);
+
                         lineOfSightBlocked = lineOfSightBlocked && !hit.transform.TryGetComponent(out ITarget losCheckTarget);
                         Debug.DrawRay(transform.position + Vector3.up, directionToTarget, lineOfSightBlocked? Color.red : Color.green);
                         if (lineOfSightBlocked)
@@ -141,20 +142,26 @@ namespace Operator
                             if (distance <= closestTargetDistance)
                             {
                                 closestTargetDistance = distance;
-                                closestTarget = target;
+                                context.lockOnTarget = target;
                             }
                         }
                     }
                 }
 
-                if (closestTarget != null)
+                if (lockOnTargets.Count == 0)
                 {
-                    Vector3 directionToClosestTarget = closestTarget.WorldPosition - context.transform.position;
+                    context.lockOnTarget = null;
+                    context.lockOn.gameObject.SetActive(false);
+                }
+
+                if (context.lockOnTarget != null)
+                {
+                    Vector3 directionToClosestTarget = context.lockOnTarget.WorldPosition - context.transform.position;
                     directionToClosestTarget.y = 0f;
                     Quaternion rotationToClosestTarget = Quaternion.LookRotation(directionToClosestTarget, context.motor.CharacterUp);
                     currentRotation = rotationToClosestTarget;
 
-                    Vector3 lockOnPosition = closestTarget.WorldPosition;
+                    Vector3 lockOnPosition = context.lockOnTarget.WorldPosition;
                     lockOnPosition.y = context.firePoint.transform.position.y;
                     context.lockOn.position = context.camera.camera.WorldToScreenPoint(lockOnPosition);
                     context.lockOn.gameObject.SetActive(true);
@@ -162,8 +169,9 @@ namespace Operator
                 }
             }
 
-            if (context.lockOn.gameObject.activeSelf)
+            if (context.lockOnTarget != null || context.lockOn.gameObject.activeSelf)
             {
+                context.lockOnTarget = null;
                 context.lockOn.gameObject.SetActive(false);
             }
 

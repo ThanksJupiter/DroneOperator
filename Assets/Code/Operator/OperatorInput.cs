@@ -9,7 +9,7 @@ public class OperatorInput : MonoBehaviour, Operator_Actions.IControlActions
     public Vector2 move { get; private set; }
 
     public bool shoot { get; private set; }
-    public bool targetLock { get; private set; }
+    public bool targetLock { get; set; }
 
     private void Start()
     {

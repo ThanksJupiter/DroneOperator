@@ -35,17 +35,22 @@ namespace Operator
             {
                 fireTimer = 0f;
 
-                Ray ray = new Ray(context.firePoint.position, context.firePoint.forward);
+                Vector3 fireDirection = context.lockOnTarget != null ? context.lockOnTarget.WorldPosition - context.firePoint.position : context.firePoint.forward;
+                Ray ray = new Ray(context.firePoint.position, fireDirection);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f))
                 {
                     if (hit.transform.TryGetComponent(out ITarget target))
                     {
                         target.Hit();
+
+                        if (target.IsDead)
+                            context.lockOnTarget = null;
                         GameObject.Instantiate(context.hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
                     }
                     else
                     {
-                        GameObject.Instantiate(context.hitWallEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
+                        Vector3 effectDirection = Vector3.Reflect(fireDirection, hit.normal);
+                        GameObject.Instantiate(context.hitWallEffectPrefab, hit.point, Quaternion.LookRotation(effectDirection, Vector3.up));
                     }
                 }
             }

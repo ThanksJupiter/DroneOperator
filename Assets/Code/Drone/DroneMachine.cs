@@ -99,6 +99,9 @@ namespace Drone
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
+            if (context.motor.GroundingStatus.FoundAnyGround && context.input.move.y > 0f)
+                context.motor.ForceUnground();
+
             Vector3 targetVelocity = context.movement.moveInputVector * context.movement.moveSpeed;
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, 1f - Mathf.Exp(-context.movement.moveSharpness * deltaTime));
         }
