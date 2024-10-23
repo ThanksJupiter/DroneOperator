@@ -25,6 +25,7 @@ namespace Operator
         public GameObject hitWallEffectPrefab;
         public RectTransform lockOn;
         public ITarget lockOnTarget = null;
+        public Light muzzleFlash;
     }
 
     public class OperatorMachine : StateMachine<OperatorContext>, ICharacterController
@@ -33,6 +34,7 @@ namespace Operator
         {
             context.motor.CharacterController = this;
             context.movement.activeMoveSpeed = context.settings.moveSpeed;
+            context.muzzleFlash.enabled = false;
             ActivateState<OperatorDefaultState>();
         }
 

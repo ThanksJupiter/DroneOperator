@@ -18,6 +18,7 @@ namespace Operator
         {
             context.animator.InputShoot = false;
             context.shootParticleSystem.Stop();
+            context.muzzleFlash.enabled = false;
         }
 
         public override void OnUpdate(float deltaTime)
@@ -34,6 +35,7 @@ namespace Operator
             if (fireTimer >= context.settings.fireRate)
             {
                 fireTimer = 0f;
+                context.muzzleFlash.enabled = true;
 
                 Vector3 fireDirection = context.lockOnTarget != null ? context.lockOnTarget.WorldPosition - context.firePoint.position : context.firePoint.forward;
                 Ray ray = new Ray(context.firePoint.position, fireDirection);
@@ -53,6 +55,10 @@ namespace Operator
                         GameObject.Instantiate(context.hitWallEffectPrefab, hit.point, Quaternion.LookRotation(effectDirection, Vector3.up));
                     }
                 }
+            }
+            else if (fireTimer >= .05f)
+            {
+                context.muzzleFlash.enabled = false;
             }
 
             if (!context.input.shoot)
