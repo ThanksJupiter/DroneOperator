@@ -31,12 +31,19 @@ namespace Operator
             set => animator.SetBool(Param.InputShoot, value);
         }
 
+        public bool ActionDead
+        {
+            get => animator.GetBool(Param.ActionDead);
+            set => animator.SetBool(Param.ActionDead, value);
+        }
+
         public static class Param
         {
             public static readonly int Empty = Animator.StringToHash("Empty");
             public static readonly int InputMoveX = Animator.StringToHash("Input.MoveX");
             public static readonly int InputMoveY = Animator.StringToHash("Input.MoveY");
             public static readonly int InputShoot = Animator.StringToHash("Input.Shoot");
+            public static readonly int ActionDead = Animator.StringToHash("Action.Dead");
         }
     }
 }

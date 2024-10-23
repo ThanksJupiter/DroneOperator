@@ -103,6 +103,9 @@ namespace Operator
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
+            if (context.animator.ActionDead)
+                return;
+
             OperatorMovement movement = context.movement;
             if (movement.lookInputVector.sqrMagnitude > 0f)
             {
@@ -184,6 +187,12 @@ namespace Operator
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
+            if (context.animator.ActionDead)
+            {
+                currentVelocity = Vector3.zero;
+                return;
+            }
+
             if (!context.motor.GroundingStatus.IsStableOnGround)
             {
                 currentVelocity += Vector3.down * context.settings.gravity * deltaTime;

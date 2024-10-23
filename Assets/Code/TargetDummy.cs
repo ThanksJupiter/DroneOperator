@@ -4,6 +4,7 @@ public class TargetDummy : MonoBehaviour, ITarget
 {
     public ParticleSystem deathEffect;
 
+    public Transform graphics;
     private Vector3 originPosition;
     private float shakeDuration = 0f;
 
@@ -15,18 +16,21 @@ public class TargetDummy : MonoBehaviour, ITarget
 
     private void Start()
     {
-        originPosition = transform.position;
+        originPosition = graphics.localPosition;
     }
 
     public void Hit()
     {
+        if (health <= 0f)
+            return;
+
         shakeDuration = .2f;
         health -= Random.Range(5f, 15f);
 
         if (health <= 0f)
         {
-            GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<CapsuleCollider>().enabled = false;
+            /*GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;*/
             deathEffect.Play();
             Destroy(gameObject, 5f);
         }
@@ -37,11 +41,11 @@ public class TargetDummy : MonoBehaviour, ITarget
         if (shakeDuration > 0f)
         {
             shakeDuration -= Time.deltaTime;
-            transform.position = originPosition + Random.insideUnitSphere * shakeDuration;
+            graphics.localPosition = originPosition + Random.insideUnitSphere * shakeDuration;
 
             if (shakeDuration <= 0f)
             {
-                transform.position = originPosition;
+                graphics.localPosition = originPosition;
             }
         }
     }
