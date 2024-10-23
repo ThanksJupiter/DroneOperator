@@ -12,17 +12,17 @@ namespace Zombie
             context.moveInputVector = Vector3.zero;
 
             lilTimer = 0f;
-            Debug.Log("eat player tbh :)");
-            context.target.context.animator.ActionDead = true;
-            context.killedPlayer = true;
-            context.transform.GetComponent<ZombieMachine>().Invoke("ReloadScene", 3f);
+            
         }
 
         public override void OnUpdate(float deltaTime)
         {
             lilTimer += deltaTime;
-            if (lilTimer >= .1f)
+            if (lilTimer >= .35f)
             {
+                context.target.context.animator.ActionDead = true;
+                context.target.InvokeReloadScene();
+                context.killedPlayer = true;
                 machine.ActivateState<ZombieDefaultState>();
             }
         }
@@ -30,11 +30,6 @@ namespace Zombie
         public override void OnLeave()
         {
             context.animatorBridge.ActionAttack = false;
-        }
-
-        private void ReloadScene()
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

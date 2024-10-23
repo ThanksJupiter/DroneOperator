@@ -44,6 +44,16 @@ namespace Operator
             context.laser.UpdatePosition();
         }
 
+        public void InvokeReloadScene()
+        {
+            Invoke("ReloadScene", 2f);
+        }
+
+        private void ReloadScene()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        }
+
         private void SetInput()
         {
             Vector3 moveInputVector = new Vector3(context.input.move.x, 0f, context.input.move.y);
@@ -127,7 +137,7 @@ namespace Operator
                 Collider[] overlappedColliders = Physics.OverlapSphere(context.transform.position, context.settings.lockOnRadius);
                 for (int i = 0; i < overlappedColliders.Length; i++)
                 {
-                    if (overlappedColliders[i].TryGetComponent(out ITarget target))
+                    if (overlappedColliders[i].TryGetComponent(out ITarget target) && !target.IsDead)
                     {
                         // Line of sight
                         Vector3 directionToTarget = target.WorldPosition - context.transform.position;
